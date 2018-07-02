@@ -84,7 +84,7 @@ func TestJSON(t *testing.T) {
 	}{
 		{
 			src: Pack{
-				{Name: "urn:dev:ow:10e2073a01080063", Unit: "Cel", Value: fptr(23.1)},
+				{Name: "urn:dev:ow:10e2073a01080063", Unit: Celsius, Value: fptr(23.1)},
 			},
 			json: `[{"n":"urn:dev:ow:10e2073a01080063","u":"Cel","v":23.1}]`,
 		},
@@ -106,13 +106,13 @@ func TestXML(t *testing.T) {
 	}{
 		{
 			src: Pack{
-				{Name: "urn:dev:ow:10e2073a01080063", Unit: "Cel", Value: fptr(23.1)},
+				{Name: "urn:dev:ow:10e2073a01080063", Unit: Celsius, Value: fptr(23.1)},
 			},
 			xml: `<sensml xmlns="urn:ietf:params:xml:ns:senml"><senml n="urn:dev:ow:10e2073a01080063" u="Cel" v="23.1"></senml></sensml>`,
 		},
 		{
 			src: Pack{
-				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.276020076001e+09, BaseUnit: "A", Version: 5, Name: "voltage", Unit: "V", Value: fptr(120.1)},
+				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.276020076001e+09, BaseUnit: Ampere, Version: 5, Name: "voltage", Unit: Volt, Value: fptr(120.1)},
 				{Name: "current", Time: -5, Value: fptr(1.2)},
 				{Name: "current", Time: -4, Value: fptr(1.3)},
 				{Name: "current", Time: -3, Value: fptr(1.4)},
