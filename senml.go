@@ -189,7 +189,7 @@ func (p Pack) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 // UnmarshalXML implements xml.Unmarshaler. It decodes a XML encoded SenML Pack.
 func (p *Pack) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	n := xmlPack{}
-	err := d.Decode(&n)
+	err := d.DecodeElement(&n, &start)
 	if err != nil {
 		return err
 	}
