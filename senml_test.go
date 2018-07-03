@@ -207,7 +207,7 @@ func TestEquals(t *testing.T) {
 			b: Pack{
 				{Name: "foo", DataValue: []byte{0x1, 0x3}},
 			},
-			res: true,
+			res: false,
 		},
 		{
 			a: Pack{
