@@ -103,6 +103,15 @@ func TestEquals(t *testing.T) {
 		},
 		{
 			a: Pack{
+				{Name: "foo", BoolValue: fbool(true)},
+			},
+			b: Pack{
+				{Name: "bar", BoolValue: fbool(true)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
 				{BaseName: "foo", BoolValue: fbool(true)},
 			},
 			b: Pack{
@@ -148,10 +157,28 @@ func TestEquals(t *testing.T) {
 		},
 		{
 			a: Pack{
+				{Name: "foo", UpdateTime: 1},
+			},
+			b: Pack{
+				{Name: "foo", UpdateTime: 2},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
 				{Name: "foo", Unit: Ampere},
 			},
 			b: Pack{
 				{Name: "foo", Unit: Volt},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BaseUnit: Ampere},
+			},
+			b: Pack{
+				{Name: "foo", BaseUnit: Volt},
 			},
 			res: false,
 		},
@@ -170,6 +197,15 @@ func TestEquals(t *testing.T) {
 			},
 			b: Pack{
 				{Name: "foo", DataValue: []byte{0x1, 0x2}},
+			},
+			res: true,
+		},
+		{
+			a: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2}},
+			},
+			b: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x3}},
 			},
 			res: true,
 		},
