@@ -101,6 +101,105 @@ func TestEquals(t *testing.T) {
 			},
 			res: false,
 		},
+		{
+			a: Pack{
+				{BaseName: "foo", BoolValue: fbool(true)},
+			},
+			b: Pack{
+				{BaseName: "bar", BoolValue: fbool(true)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BaseValue: fptr(1)},
+			},
+			b: Pack{
+				{Name: "foo", BaseValue: fptr(2)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BaseValue: fptr(1)},
+			},
+			b: Pack{
+				{Name: "foo"},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BaseTime: 1},
+			},
+			b: Pack{
+				{Name: "foo", BaseTime: 2},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", Time: 1},
+			},
+			b: Pack{
+				{Name: "foo", Time: 2},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", Unit: Ampere},
+			},
+			b: Pack{
+				{Name: "foo", Unit: Volt},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", StringValue: "foo"},
+			},
+			b: Pack{
+				{Name: "foo", StringValue: "bar"},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2}},
+			},
+			b: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2}},
+			},
+			res: true,
+		},
+		{
+			a: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2}},
+			},
+			b: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2, 0x3}},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2, 0x3}},
+			},
+			b: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2}},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", DataValue: []byte{0x1, 0x2}},
+			},
+			b: Pack{
+				{Name: "foo", DataValue: nil},
+			},
+			res: false,
+		},
 	}
 	for _, tc := range tcs {
 		if tc.a.Equals(tc.b) != tc.res {
@@ -174,6 +273,22 @@ func TestNormalize(t *testing.T) {
 			},
 			norm: Pack{
 				{Name: "foo", Time: 2, Value: fptr(1)},
+			},
+		},
+		{
+			src: Pack{
+				{Name: "foo", Time: 1, Value: fptr(1)},
+				{Name: "foo", Time: 1, BoolValue: fbool(true)},
+				{Name: "foo", Time: 1, StringValue: "foo"},
+				{Name: "foo", Time: 1, DataValue: []byte{0x01, 0x02}},
+				{Name: "foo", Time: 1, Sum: fptr(1)},
+			},
+			norm: Pack{
+				{Name: "foo", Time: 1, Value: fptr(1)},
+				{Name: "foo", Time: 1, BoolValue: fbool(true)},
+				{Name: "foo", Time: 1, StringValue: "foo"},
+				{Name: "foo", Time: 1, DataValue: []byte{0x01, 0x02}},
+				{Name: "foo", Time: 1, Sum: fptr(1)},
 			},
 		},
 		{
