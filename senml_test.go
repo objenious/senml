@@ -10,6 +10,105 @@ func fptr(f float64) *float64 {
 	return &f
 }
 
+func fbool(b bool) *bool {
+	return &b
+}
+
+func TestEquals(t *testing.T) {
+	tcs := []struct {
+		a   Pack
+		b   Pack
+		res bool
+	}{
+		{
+			a: Pack{
+				{Name: "foo", Value: fptr(1)},
+				{Name: "bar", BoolValue: fbool(true)},
+			},
+			b: Pack{
+				{Name: "foo", Value: fptr(1)},
+				{Name: "bar", BoolValue: fbool(true)},
+			},
+			res: true,
+		},
+		{
+			a: Pack{
+				{Name: "foo", Value: fptr(1)},
+			},
+			b:   nil,
+			res: false,
+		},
+		{
+			a: nil,
+			b: Pack{
+				{Name: "foo", Value: fptr(1)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", Value: fptr(1)},
+			},
+			b: Pack{
+				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: fptr(1)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: fptr(1)},
+			},
+			b: Pack{
+				{Name: "foo", Value: fptr(1)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", Value: fptr(1)},
+			},
+			b: Pack{
+				{Name: "foo", Value: fptr(2)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", Value: fptr(1)},
+			},
+			b: Pack{
+				{Name: "foo"},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BoolValue: fbool(true)},
+			},
+			b: Pack{
+				{Name: "foo", BoolValue: fbool(false)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BoolValue: fbool(true)},
+			},
+			b: Pack{
+				{Name: "foo"},
+			},
+			res: false,
+		},
+	}
+	for _, tc := range tcs {
+		if tc.a.Equals(tc.b) != tc.res {
+			t.Errorf("Equals with %+v and %+v should return %v", tc.a, tc.b, tc.res)
+		}
+	}
+}
+
 func TestNormalize(t *testing.T) {
 	tcs := []struct {
 		src  Pack
@@ -17,28 +116,28 @@ func TestNormalize(t *testing.T) {
 	}{
 		{
 			src: Pack{
-				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.320067464e+09, BaseUnit: "%RH", Value: fptr(20)},
-				{Unit: "lon", Value: fptr(24.30621)},
-				{Unit: "lat", Value: fptr(60.07965)},
+				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.320067464e+09, BaseUnit: RelativeHumidity, Value: fptr(20)},
+				{Unit: DegreesLongitude, Value: fptr(24.30621)},
+				{Unit: DegreesLatitude, Value: fptr(60.07965)},
 				{Time: 60, Value: fptr(20.3)},
-				{Unit: "lon", Time: 60, Value: fptr(24.30622)},
-				{Unit: "lat", Time: 60, Value: fptr(60.07965)},
+				{Unit: DegreesLongitude, Time: 60, Value: fptr(24.30622)},
+				{Unit: DegreesLatitude, Time: 60, Value: fptr(60.07965)},
 				{Time: 120, Value: fptr(20.7)},
-				{Unit: "lon", Time: 120, Value: fptr(24.30623)},
-				{Unit: "lat", Time: 120, Value: fptr(60.07966)},
-				{Unit: "%EL", Time: 150, Value: fptr(98)},
+				{Unit: DegreesLongitude, Time: 120, Value: fptr(24.30623)},
+				{Unit: DegreesLatitude, Time: 120, Value: fptr(60.07966)},
+				{Unit: EnergyLevel, Time: 150, Value: fptr(98)},
 			},
 			norm: Pack{
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: "%RH", Value: fptr(20), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: "lon", Value: fptr(24.30621), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: "lat", Value: fptr(60.07965), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: "%RH", Value: fptr(20.3), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: "lon", Value: fptr(24.30622), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: "lat", Value: fptr(60.07965), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: "%RH", Value: fptr(20.7), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: "lon", Value: fptr(24.30623), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: "lat", Value: fptr(60.07966), Version: 5},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067614e+09, Unit: "%EL", Value: fptr(98), Version: 5},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: RelativeHumidity, Value: fptr(20)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: DegreesLongitude, Value: fptr(24.30621)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: DegreesLatitude, Value: fptr(60.07965)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: RelativeHumidity, Value: fptr(20.3)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: DegreesLongitude, Value: fptr(24.30622)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: DegreesLatitude, Value: fptr(60.07965)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: RelativeHumidity, Value: fptr(20.7)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: DegreesLongitude, Value: fptr(24.30623)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: DegreesLatitude, Value: fptr(60.07966)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067614e+09, Unit: EnergyLevel, Value: fptr(98)},
 			},
 		},
 		{
@@ -47,7 +146,7 @@ func TestNormalize(t *testing.T) {
 				{Name: "bar", Value: fptr(1)},
 			},
 			norm: Pack{
-				{Name: "foo.bar", Value: fptr(1), Version: 5},
+				{Name: "foo.bar", Value: fptr(1)},
 			},
 		},
 		{
@@ -56,7 +155,7 @@ func TestNormalize(t *testing.T) {
 				{Name: "foo", Value: fptr(1)},
 			},
 			norm: Pack{
-				{Name: "foo", Value: fptr(2), Version: 5},
+				{Name: "foo", Value: fptr(2)},
 			},
 		},
 		{
@@ -65,12 +164,31 @@ func TestNormalize(t *testing.T) {
 				{Name: "foo", Sum: fptr(1)},
 			},
 			norm: Pack{
-				{Name: "foo", Sum: fptr(2), Version: 5},
+				{Name: "foo", Sum: fptr(2)},
+			},
+		},
+		{
+			src: Pack{
+				{BaseTime: 1},
+				{Name: "foo", Time: 1, Value: fptr(1)},
+			},
+			norm: Pack{
+				{Name: "foo", Time: 2, Value: fptr(1)},
+			},
+		},
+		{
+			src: Pack{
+				{Name: "foo", Time: 2, Value: fptr(1)},
+				{Name: "foo", Time: 1, Value: fptr(2)},
+			},
+			norm: Pack{
+				{Name: "foo", Time: 1, Value: fptr(2)},
+				{Name: "foo", Time: 2, Value: fptr(1)},
 			},
 		},
 	}
 	for _, tc := range tcs {
-		norm := tc.norm.Normalize()
+		norm := tc.src.Normalize()
 		if !norm.Equals(tc.norm) {
 			t.Errorf("Normalized version of %+v should be %+v not %+v", tc.src, tc.norm, norm)
 		}
@@ -97,8 +215,18 @@ func TestJSON(t *testing.T) {
 		if string(enc) != tc.json {
 			t.Errorf("JSON encoding of %+v should be %s not %s", tc.src, tc.json, enc)
 		}
+
+		dec := Pack{}
+		err = json.Unmarshal([]byte(tc.json), &dec)
+		if err != nil {
+			t.Errorf("JSON decoding of %s returned an error : %s", tc.json, err)
+		}
+		if !tc.src.Equals(dec) {
+			t.Errorf("JSON decoding of %s should be %+v not %+v", tc.json, tc.src, dec)
+		}
 	}
 }
+
 func TestXML(t *testing.T) {
 	tcs := []struct {
 		src Pack
@@ -130,6 +258,15 @@ func TestXML(t *testing.T) {
 		}
 		if string(enc) != tc.xml {
 			t.Errorf("XML encoding of %+v should be %s not %s", tc.src, tc.xml, enc)
+		}
+
+		dec := Pack{}
+		err = xml.Unmarshal([]byte(tc.xml), &dec)
+		if err != nil {
+			t.Errorf("XML decoding of %s returned an error : %s", tc.xml, err)
+		}
+		if !tc.src.Equals(dec) {
+			t.Errorf("XML decoding of %s should be %+v not %+v", tc.xml, tc.src, dec)
 		}
 	}
 }
