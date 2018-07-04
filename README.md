@@ -1,8 +1,8 @@
 # senml
 
-[![Travis-CI](https://travis-ci.org/objenious/senml.svg)](https://travis-ci.org/objenious/senml)  [![GoDoc](https://godoc.org/github.com/objenious/senml?status.svg)](http://godoc.org/github.com/objenious/senml)
+[![Travis-CI](https://travis-ci.org/objenious/senml.svg?branch=master)](https://travis-ci.org/objenious/senml)  [![GoDoc](https://godoc.org/github.com/objenious/senml?status.svg)](http://godoc.org/github.com/objenious/senml)
 [![GoReportCard](https://goreportcard.com/badge/github.com/objenious/senml)](https://goreportcard.com/report/github.com/objenious/senml)
-[![Coverage Status](https://coveralls.io/repos/github/objenious/senml/badge.svg)](https://coveralls.io/github/objenious/senml)
+[![Coverage Status](https://coveralls.io/repos/github/objenious/senml/badge.svg?branch=master)](https://coveralls.io/github/objenious/senml?branch=master)
 
 `go get github.com/objenious/senml`
 
