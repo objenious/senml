@@ -44,7 +44,7 @@ type Record struct {
 	StringValue string   `json:"vs,omitempty"  xml:"vs,attr,omitempty"`
 	DataValue   []byte   `json:"vd,omitempty"  xml:"vd,attr,omitempty"`
 	BoolValue   *bool    `json:"vb,omitempty"  xml:"vb,attr,omitempty"`
-	Sum         *float64 `json:"s,omitempty"  xml:"sum,attr,omitempty"`
+	Sum         *float64 `json:"s,omitempty"  xml:"s,attr,omitempty"`
 }
 
 // Equals checks if two records are equal
