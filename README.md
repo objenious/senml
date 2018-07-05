@@ -6,11 +6,25 @@
 
 `go get github.com/objenious/senml`
 
-## Status: alpha - breaking changes might happen
+## Status: beta (no breaking changes expected)
 
 This package implements the SenML format (Sensor Measurement Lists, formerly known as Sensor Markup Language), as defined in https://tools.ietf.org/html/draft-ietf-core-senml-16
 
 This package is used in production on the Objenious LoRaWAN platform, and is maintained.
+
+## Encoding/decoding
+
+Encoding to/from JSON and XML is managed by the standard library.
+
+```
+s := senml.Pack{{Name:"foo", Value: senml.Float(32)}}
+err := json.NewEncoder(w).Encode(s)
+```
+
+```
+s := senml.Pack{}
+err := json.NewDecoder(req.Body).Decode(&s)
+```
 
 ## TODO
 
