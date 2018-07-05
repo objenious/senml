@@ -6,14 +6,6 @@ import (
 	"testing"
 )
 
-func fptr(f float64) *float64 {
-	return &f
-}
-
-func fbool(b bool) *bool {
-	return &b
-}
-
 func TestEquals(t *testing.T) {
 	tcs := []struct {
 		a   Pack
@@ -22,18 +14,18 @@ func TestEquals(t *testing.T) {
 	}{
 		{
 			a: Pack{
-				{Name: "foo", Value: fptr(1)},
-				{Name: "bar", BoolValue: fbool(true)},
+				{Name: "foo", Value: Float(1)},
+				{Name: "bar", BoolValue: Bool(true)},
 			},
 			b: Pack{
-				{Name: "foo", Value: fptr(1)},
-				{Name: "bar", BoolValue: fbool(true)},
+				{Name: "foo", Value: Float(1)},
+				{Name: "bar", BoolValue: Bool(true)},
 			},
 			res: true,
 		},
 		{
 			a: Pack{
-				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			b:   nil,
 			res: false,
@@ -41,60 +33,42 @@ func TestEquals(t *testing.T) {
 		{
 			a: nil,
 			b: Pack{
-				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			res: false,
 		},
 		{
 			a: Pack{
-				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			b: Pack{
-				{Name: "foo", Value: fptr(1)},
-				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: Float(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			res: false,
 		},
 		{
 			a: Pack{
-				{Name: "foo", Value: fptr(1)},
-				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: Float(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			b: Pack{
-				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			res: false,
 		},
 		{
 			a: Pack{
-				{Name: "foo", Value: fptr(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			b: Pack{
-				{Name: "foo", Value: fptr(2)},
+				{Name: "foo", Value: Float(2)},
 			},
 			res: false,
 		},
 		{
 			a: Pack{
-				{Name: "foo", Value: fptr(1)},
-			},
-			b: Pack{
-				{Name: "foo"},
-			},
-			res: false,
-		},
-		{
-			a: Pack{
-				{Name: "foo", BoolValue: fbool(true)},
-			},
-			b: Pack{
-				{Name: "foo", BoolValue: fbool(false)},
-			},
-			res: false,
-		},
-		{
-			a: Pack{
-				{Name: "foo", BoolValue: fbool(true)},
+				{Name: "foo", Value: Float(1)},
 			},
 			b: Pack{
 				{Name: "foo"},
@@ -103,34 +77,52 @@ func TestEquals(t *testing.T) {
 		},
 		{
 			a: Pack{
-				{Name: "foo", BoolValue: fbool(true)},
+				{Name: "foo", BoolValue: Bool(true)},
 			},
 			b: Pack{
-				{Name: "bar", BoolValue: fbool(true)},
+				{Name: "foo", BoolValue: Bool(false)},
 			},
 			res: false,
 		},
 		{
 			a: Pack{
-				{BaseName: "foo", BoolValue: fbool(true)},
+				{Name: "foo", BoolValue: Bool(true)},
 			},
 			b: Pack{
-				{BaseName: "bar", BoolValue: fbool(true)},
+				{Name: "foo"},
 			},
 			res: false,
 		},
 		{
 			a: Pack{
-				{Name: "foo", BaseValue: fptr(1)},
+				{Name: "foo", BoolValue: Bool(true)},
 			},
 			b: Pack{
-				{Name: "foo", BaseValue: fptr(2)},
+				{Name: "bar", BoolValue: Bool(true)},
 			},
 			res: false,
 		},
 		{
 			a: Pack{
-				{Name: "foo", BaseValue: fptr(1)},
+				{BaseName: "foo", BoolValue: Bool(true)},
+			},
+			b: Pack{
+				{BaseName: "bar", BoolValue: Bool(true)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BaseValue: Float(1)},
+			},
+			b: Pack{
+				{Name: "foo", BaseValue: Float(2)},
+			},
+			res: false,
+		},
+		{
+			a: Pack{
+				{Name: "foo", BaseValue: Float(1)},
 			},
 			b: Pack{
 				{Name: "foo"},
@@ -251,90 +243,90 @@ func TestNormalize(t *testing.T) {
 	}{
 		{
 			src: Pack{
-				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.320067464e+09, BaseUnit: RelativeHumidity, Value: fptr(20)},
-				{Unit: DegreesLongitude, Value: fptr(24.30621)},
-				{Unit: DegreesLatitude, Value: fptr(60.07965)},
-				{Time: 60, Value: fptr(20.3)},
-				{Unit: DegreesLongitude, Time: 60, Value: fptr(24.30622)},
-				{Unit: DegreesLatitude, Time: 60, Value: fptr(60.07965)},
-				{Time: 120, Value: fptr(20.7)},
-				{Unit: DegreesLongitude, Time: 120, Value: fptr(24.30623)},
-				{Unit: DegreesLatitude, Time: 120, Value: fptr(60.07966)},
-				{Unit: EnergyLevel, Time: 150, Value: fptr(98)},
+				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.320067464e+09, BaseUnit: RelativeHumidity, Value: Float(20)},
+				{Unit: DegreesLongitude, Value: Float(24.30621)},
+				{Unit: DegreesLatitude, Value: Float(60.07965)},
+				{Time: 60, Value: Float(20.3)},
+				{Unit: DegreesLongitude, Time: 60, Value: Float(24.30622)},
+				{Unit: DegreesLatitude, Time: 60, Value: Float(60.07965)},
+				{Time: 120, Value: Float(20.7)},
+				{Unit: DegreesLongitude, Time: 120, Value: Float(24.30623)},
+				{Unit: DegreesLatitude, Time: 120, Value: Float(60.07966)},
+				{Unit: EnergyLevel, Time: 150, Value: Float(98)},
 			},
 			norm: Pack{
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: RelativeHumidity, Value: fptr(20)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: DegreesLongitude, Value: fptr(24.30621)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: DegreesLatitude, Value: fptr(60.07965)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: RelativeHumidity, Value: fptr(20.3)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: DegreesLongitude, Value: fptr(24.30622)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: DegreesLatitude, Value: fptr(60.07965)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: RelativeHumidity, Value: fptr(20.7)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: DegreesLongitude, Value: fptr(24.30623)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: DegreesLatitude, Value: fptr(60.07966)},
-				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067614e+09, Unit: EnergyLevel, Value: fptr(98)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: RelativeHumidity, Value: Float(20)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: DegreesLongitude, Value: Float(24.30621)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067464e+09, Unit: DegreesLatitude, Value: Float(60.07965)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: RelativeHumidity, Value: Float(20.3)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: DegreesLongitude, Value: Float(24.30622)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067524e+09, Unit: DegreesLatitude, Value: Float(60.07965)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: RelativeHumidity, Value: Float(20.7)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: DegreesLongitude, Value: Float(24.30623)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067584e+09, Unit: DegreesLatitude, Value: Float(60.07966)},
+				{Name: "urn:dev:ow:10e2073a01080063", Time: 1.320067614e+09, Unit: EnergyLevel, Value: Float(98)},
 			},
 		},
 		{
 			src: Pack{
 				{BaseName: "foo."},
-				{Name: "bar", Value: fptr(1)},
+				{Name: "bar", Value: Float(1)},
 			},
 			norm: Pack{
-				{Name: "foo.bar", Value: fptr(1)},
+				{Name: "foo.bar", Value: Float(1)},
 			},
 		},
 		{
 			src: Pack{
-				{BaseValue: fptr(1)},
-				{Name: "foo", Value: fptr(1)},
+				{BaseValue: Float(1)},
+				{Name: "foo", Value: Float(1)},
 			},
 			norm: Pack{
-				{Name: "foo", Value: fptr(2)},
+				{Name: "foo", Value: Float(2)},
 			},
 		},
 		{
 			src: Pack{
-				{BaseSum: fptr(1)},
-				{Name: "foo", Sum: fptr(1)},
+				{BaseSum: Float(1)},
+				{Name: "foo", Sum: Float(1)},
 			},
 			norm: Pack{
-				{Name: "foo", Sum: fptr(2)},
+				{Name: "foo", Sum: Float(2)},
 			},
 		},
 		{
 			src: Pack{
 				{BaseTime: 1},
-				{Name: "foo", Time: 1, Value: fptr(1)},
+				{Name: "foo", Time: 1, Value: Float(1)},
 			},
 			norm: Pack{
-				{Name: "foo", Time: 2, Value: fptr(1)},
+				{Name: "foo", Time: 2, Value: Float(1)},
 			},
 		},
 		{
 			src: Pack{
-				{Name: "foo", Time: 1, Value: fptr(1)},
-				{Name: "foo", Time: 1, BoolValue: fbool(true)},
+				{Name: "foo", Time: 1, Value: Float(1)},
+				{Name: "foo", Time: 1, BoolValue: Bool(true)},
 				{Name: "foo", Time: 1, StringValue: "foo"},
 				{Name: "foo", Time: 1, DataValue: []byte{0x01, 0x02}},
-				{Name: "foo", Time: 1, Sum: fptr(1)},
+				{Name: "foo", Time: 1, Sum: Float(1)},
 			},
 			norm: Pack{
-				{Name: "foo", Time: 1, Value: fptr(1)},
-				{Name: "foo", Time: 1, BoolValue: fbool(true)},
+				{Name: "foo", Time: 1, Value: Float(1)},
+				{Name: "foo", Time: 1, BoolValue: Bool(true)},
 				{Name: "foo", Time: 1, StringValue: "foo"},
 				{Name: "foo", Time: 1, DataValue: []byte{0x01, 0x02}},
-				{Name: "foo", Time: 1, Sum: fptr(1)},
+				{Name: "foo", Time: 1, Sum: Float(1)},
 			},
 		},
 		{
 			src: Pack{
-				{Name: "foo", Time: 2, Value: fptr(1)},
-				{Name: "foo", Time: 1, Value: fptr(2)},
+				{Name: "foo", Time: 2, Value: Float(1)},
+				{Name: "foo", Time: 1, Value: Float(2)},
 			},
 			norm: Pack{
-				{Name: "foo", Time: 1, Value: fptr(2)},
-				{Name: "foo", Time: 2, Value: fptr(1)},
+				{Name: "foo", Time: 1, Value: Float(2)},
+				{Name: "foo", Time: 2, Value: Float(1)},
 			},
 		},
 	}
@@ -353,7 +345,7 @@ func TestJSON(t *testing.T) {
 	}{
 		{
 			src: Pack{
-				{Name: "urn:dev:ow:10e2073a01080063", Unit: Celsius, Value: fptr(23.1)},
+				{Name: "urn:dev:ow:10e2073a01080063", Unit: Celsius, Value: Float(23.1)},
 			},
 			json: `[{"n":"urn:dev:ow:10e2073a01080063","u":"Cel","v":23.1}]`,
 		},
@@ -385,19 +377,19 @@ func TestXML(t *testing.T) {
 	}{
 		{
 			src: Pack{
-				{Name: "urn:dev:ow:10e2073a01080063", Unit: Celsius, Value: fptr(23.1)},
+				{Name: "urn:dev:ow:10e2073a01080063", Unit: Celsius, Value: Float(23.1)},
 			},
 			xml: `<sensml xmlns="urn:ietf:params:xml:ns:senml"><senml n="urn:dev:ow:10e2073a01080063" u="Cel" v="23.1"></senml></sensml>`,
 		},
 		{
 			src: Pack{
-				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.276020076001e+09, BaseUnit: Ampere, Version: 5, Name: "voltage", Unit: Volt, Value: fptr(120.1)},
-				{Name: "current", Time: -5, Value: fptr(1.2)},
-				{Name: "current", Time: -4, Value: fptr(1.3)},
-				{Name: "current", Time: -3, Value: fptr(1.4)},
-				{Name: "current", Time: -2, Value: fptr(1.5)},
-				{Name: "current", Time: -1, Value: fptr(1.6)},
-				{Name: "current", Value: fptr(1.7)},
+				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.276020076001e+09, BaseUnit: Ampere, Version: 5, Name: "voltage", Unit: Volt, Value: Float(120.1)},
+				{Name: "current", Time: -5, Value: Float(1.2)},
+				{Name: "current", Time: -4, Value: Float(1.3)},
+				{Name: "current", Time: -3, Value: Float(1.4)},
+				{Name: "current", Time: -2, Value: Float(1.5)},
+				{Name: "current", Time: -1, Value: Float(1.6)},
+				{Name: "current", Value: Float(1.7)},
 			},
 			xml: `<sensml xmlns="urn:ietf:params:xml:ns:senml"><senml bn="urn:dev:ow:10e2073a01080063" bt="1.276020076001e+09" bu="A" bver="5" n="voltage" u="V" v="120.1"></senml><senml n="current" t="-5" v="1.2"></senml><senml n="current" t="-4" v="1.3"></senml><senml n="current" t="-3" v="1.4"></senml><senml n="current" t="-2" v="1.5"></senml><senml n="current" t="-1" v="1.6"></senml><senml n="current" v="1.7"></senml></sensml>`,
 		},
