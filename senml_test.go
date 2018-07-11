@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"testing"
+	"time"
 )
 
 func TestEquals(t *testing.T) {
@@ -332,6 +333,66 @@ func TestNormalize(t *testing.T) {
 	}
 	for _, tc := range tcs {
 		norm := tc.src.Normalize()
+		if !norm.Equals(tc.norm) {
+			t.Errorf("Normalized version of %+v should be %+v not %+v", tc.src, tc.norm, norm)
+		}
+	}
+}
+
+func TestNormalizeAt(t *testing.T) {
+	t0 := time.Now()
+	tcs := []struct {
+		src  Pack
+		norm Pack
+	}{
+		{
+			src: Pack{
+				{BaseName: "foo."},
+				{Name: "bar", Value: Float(1)},
+			},
+			norm: Pack{
+				{Name: "foo.bar", Time: Time(t0), Value: Float(1)},
+			},
+		},
+		{
+			src: Pack{
+				{BaseName: "foo."},
+				{Name: "bar", Time: 1, Value: Float(1)},
+			},
+			norm: Pack{
+				{Name: "foo.bar", Time: Time(t0) + 1, Value: Float(1)},
+			},
+		},
+		{
+			src: Pack{
+				{BaseName: "foo."},
+				{Name: "bar", Time: -268435457, Value: Float(1)},
+			},
+			norm: Pack{
+				{Name: "foo.bar", Time: Time(t0) - 268435457, Value: Float(1)},
+			},
+		},
+		{
+			src: Pack{
+				{BaseName: "foo."},
+				{Name: "bar", Time: 268435456, Value: Float(1)},
+			},
+			norm: Pack{
+				{Name: "foo.bar", Time: Time(t0) + 268435456, Value: Float(1)},
+			},
+		},
+		{
+			src: Pack{
+				{BaseName: "foo."},
+				{Name: "bar", Time: 268435457, Value: Float(1)},
+			},
+			norm: Pack{
+				{Name: "foo.bar", Time: 268435457, Value: Float(1)},
+			},
+		},
+	}
+	for _, tc := range tcs {
+		norm := tc.src.NormalizeAt(t0)
 		if !norm.Equals(tc.norm) {
 			t.Errorf("Normalized version of %+v should be %+v not %+v", tc.src, tc.norm, norm)
 		}
