@@ -8,7 +8,7 @@
 
 ## Status: beta (no breaking changes expected)
 
-This package implements the SenML format (Sensor Measurement Lists, formerly known as Sensor Markup Language), as defined in https://tools.ietf.org/html/draft-ietf-core-senml-16
+This package implements the SenML format (Sensor Measurement Lists, formerly known as Sensor Markup Language), as defined in [RFC8428](https://tools.ietf.org/html/rfc8428)
 
 This package is used in production on the Objenious LoRaWAN platform, and is maintained.
 
