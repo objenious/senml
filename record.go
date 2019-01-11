@@ -10,7 +10,7 @@ type Record struct {
 	BaseValue *float64 `json:"bv,omitempty"  xml:"bv,attr,omitempty"`
 	BaseSum   *float64 `json:"bs,omitempty"  xml:"bs,attr,omitempty"`
 
-	Version int `json:"bver,omitempty"  xml:"bver,attr,omitempty"`
+	BaseVersion int `json:"bver,omitempty"  xml:"bver,attr,omitempty"`
 
 	Name string `json:"n,omitempty"  xml:"n,attr,omitempty"`
 	Unit Unit   `json:"u,omitempty"  xml:"u,attr,omitempty"`
@@ -39,7 +39,7 @@ func (r *Record) Equals(r2 *Record) bool {
 	if r.BaseUnit != r2.BaseUnit {
 		return false
 	}
-	if r.Version != r2.Version {
+	if r.BaseVersion != r2.BaseVersion {
 		return false
 	}
 	if r.Name != r2.Name {

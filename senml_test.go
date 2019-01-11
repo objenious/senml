@@ -444,7 +444,7 @@ func TestXML(t *testing.T) {
 		},
 		{
 			src: Pack{
-				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.276020076001e+09, BaseUnit: Ampere, Version: 5, Name: "voltage", Unit: Volt, Value: Float(120.1)},
+				{BaseName: "urn:dev:ow:10e2073a01080063", BaseTime: 1.276020076001e+09, BaseUnit: Ampere, BaseVersion: 5, Name: "voltage", Unit: Volt, Value: Float(120.1)},
 				{Name: "current", Time: -5, Value: Float(1.2)},
 				{Name: "current", Time: -4, Value: Float(1.3)},
 				{Name: "current", Time: -3, Value: Float(1.4)},

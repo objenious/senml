@@ -38,8 +38,8 @@ func (p Pack) Normalize() Pack {
 		if p[i].BaseTime != 0 {
 			btime = p[i].BaseTime
 		}
-		if p[i].Version != 0 {
-			bver = p[i].Version
+		if p[i].BaseVersion != 0 {
+			bver = p[i].BaseVersion
 		}
 		if p[i].BaseUnit != "" {
 			bunit = p[i].BaseUnit
@@ -54,10 +54,10 @@ func (p Pack) Normalize() Pack {
 			bsum = *p[i].BaseSum
 		}
 		r := Record{
-			Name:    bname + p[i].Name,
-			Time:    btime + p[i].Time,
-			Unit:    bunit,
-			Version: bver,
+			Name:        bname + p[i].Name,
+			Time:        btime + p[i].Time,
+			Unit:        bunit,
+			BaseVersion: bver,
 		}
 		if p[i].Unit != "" {
 			r.Unit = p[i].Unit
