@@ -6,11 +6,13 @@
 
 `go get github.com/objenious/senml`
 
-## Status: beta (no breaking changes expected)
+## Status: stable
 
-This package implements the SenML format (Sensor Measurement Lists, formerly known as Sensor Markup Language), as defined in [RFC8428](https://tools.ietf.org/html/rfc8428)
+This package implements the SenML format (Sensor Measurement Lists, formerly known as Sensor Markup Language), as defined in [RFC8428](https://tools.ietf.org/html/rfc8428).
 
 This package is used in production on the Objenious LoRaWAN platform, and is maintained.
+
+> Warning: a breaking change was introduced in version 1.0.0, with the Record.Version being renamed to Record.BaseVersion.
 
 ## Encoding/decoding
 
